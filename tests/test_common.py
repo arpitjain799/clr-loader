@@ -98,6 +98,18 @@ def test_netfx(example_netstandard):
     from clr_loader import get_netfx
 
     netfx = get_netfx()
+    asm = netfx.get_assembly(example_netstandard / "example.dll")
+
+    run_tests(asm)
+
+
+@pytest.mark.skipif(
+    sys.platform != "win32", reason=".NET Framework only exists on Windows"
+)
+def test_netfx_separate_domain(example_netstandard):
+    from clr_loader import get_netfx
+
+    netfx = get_netfx(domain="some_domain")
     asm = netfx.get_assembly(os.path.join(example_netstandard, "example.dll"))
 
     run_tests(asm)
